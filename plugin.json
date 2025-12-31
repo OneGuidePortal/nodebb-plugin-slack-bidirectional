@@ -1,0 +1,18 @@
+{
+  "id": "nodebb-plugin-slack-bidirectional",
+  "name": "Slack Bidirectional Sync",
+  "description": "Bidirectional Slack-NodeBB integration via AWS EventBridge",
+  "version": "1.0.0",
+  "url": "https://github.com/OneGuidePortal/nodebb-plugin-slack-bidirectional",
+  "library": "./library.js",
+  "hooks": [
+    { "hook": "static:app.load", "method": "init" },
+    { "hook": "filter:admin.header.build", "method": "addAdminNavigation" },
+    { "hook": "action:topic.post", "method": "onTopicPost" },
+    { "hook": "action:post.save", "method": "onPostSave" },
+    { "hook": "action:topic.delete", "method": "onTopicDelete" },
+    { "hook": "action:topic.purge", "method": "onTopicPurge" }
+  ],
+  "acpScripts": ["public/admin.js"],
+  "templates": "./templates"
+}
