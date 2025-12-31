@@ -13,6 +13,8 @@
     { "hook": "action:topic.delete", "method": "onTopicDelete" },
     { "hook": "action:topic.purge", "method": "onTopicPurge" }
   ],
-  "acpScripts": ["public/admin.js"],
+  "modules": {
+    "../admin/plugins/slack-bidirectional.js": "./public/admin.js"
+  },
   "templates": "./templates"
 }
