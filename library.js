@@ -17,10 +17,11 @@ const slackClient = require('./lib/slack-client');
 const plugin = {};
 
 // Marker to identify content created from Slack (prevents loops)
-// Check for visible, HTML comment, and zero-width space versions
+// Check for various marker formats
 const SLACK_ORIGIN_MARKER = '[slack-sync]';
 const SLACK_ORIGIN_MARKER_HTML = '<!-- [slack-sync] -->';
 const SLACK_ORIGIN_MARKER_ZWS = '\u200B[slack-sync]\u200B';
+const SLACK_ORIGIN_MARKER_MD = '[//]: # (slack-sync)';
 
 plugin.init = async (params) => {
 	const { router, middleware } = params;
@@ -52,7 +53,8 @@ function isFromSlack(content) {
 	return content && (
 		content.includes(SLACK_ORIGIN_MARKER) ||
 		content.includes(SLACK_ORIGIN_MARKER_HTML) ||
-		content.includes(SLACK_ORIGIN_MARKER_ZWS)
+		content.includes(SLACK_ORIGIN_MARKER_ZWS) ||
+		content.includes(SLACK_ORIGIN_MARKER_MD)
 	);
 }
 
