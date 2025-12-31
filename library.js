@@ -268,8 +268,21 @@ function constructAvatarUrl(picture) {
 		return picture;
 	}
 
+	// Get base URL and extract the origin (without path like /oneguide)
 	const baseUrl = nconf.get('url').replace(/\/$/, '');
+	const urlObj = new URL(baseUrl);
+	const origin = urlObj.origin; // e.g., https://nodebb.oneguideportal.com
+
+	// If picture starts with the site path (e.g., /oneguide/assets/...), use origin + picture
+	// Otherwise prepend the full baseUrl
 	const picturePath = picture.startsWith('/') ? picture : `/${picture}`;
+
+	// Check if picture path already includes the site path
+	const sitePath = urlObj.pathname; // e.g., /oneguide
+	if (sitePath && sitePath !== '/' && picturePath.startsWith(sitePath)) {
+		return `${origin}${picturePath}`;
+	}
+
 	return `${baseUrl}${picturePath}`;
 }
 
