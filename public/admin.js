@@ -9,7 +9,7 @@ define('admin/plugins/slack-bidirectional', ['settings', 'alerts'], function (se
 			e.preventDefault();
 
 			var formData = {
-				enabled: $('#enabled').is(':checked'),
+				enabled: $('#enabled').is(':checked') ? 'true' : 'false',
 				awsWebhookUrl: $('#awsWebhookUrl').val(),
 				awsApiKey: $('#awsApiKey').val(),
 				slackBotToken: $('#slackBotToken').val(),
@@ -19,7 +19,8 @@ define('admin/plugins/slack-bidirectional', ['settings', 'alerts'], function (se
 			$.ajax({
 				url: config.relative_path + '/api/admin/plugins/slack-bidirectional/settings',
 				method: 'POST',
-				data: formData,
+				contentType: 'application/json',
+				data: JSON.stringify(formData),
 				headers: {
 					'x-csrf-token': config.csrf_token,
 				},
