@@ -17,9 +17,10 @@ const slackClient = require('./lib/slack-client');
 const plugin = {};
 
 // Marker to identify content created from Slack (prevents loops)
-// Check for both visible and HTML comment versions
+// Check for visible, HTML comment, and zero-width space versions
 const SLACK_ORIGIN_MARKER = '[slack-sync]';
 const SLACK_ORIGIN_MARKER_HTML = '<!-- [slack-sync] -->';
+const SLACK_ORIGIN_MARKER_ZWS = '\u200B[slack-sync]\u200B';
 
 plugin.init = async (params) => {
 	const { router, middleware } = params;
@@ -48,7 +49,11 @@ plugin.addAdminNavigation = (header) => {
  * Check if content originated from Slack (to prevent loops)
  */
 function isFromSlack(content) {
-	return content && (content.includes(SLACK_ORIGIN_MARKER) || content.includes(SLACK_ORIGIN_MARKER_HTML));
+	return content && (
+		content.includes(SLACK_ORIGIN_MARKER) ||
+		content.includes(SLACK_ORIGIN_MARKER_HTML) ||
+		content.includes(SLACK_ORIGIN_MARKER_ZWS)
+	);
 }
 
 /**
