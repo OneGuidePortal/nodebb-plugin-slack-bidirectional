@@ -1,12 +1,15 @@
 'use strict';
 
-define('admin/plugins/slack-bidirectional', ['settings', 'alerts', 'bootbox'], function (settings, alerts, bootbox) {
+define('admin/plugins/slack-bidirectional', ['settings', 'alerts', 'bootbox', 'bootstrap'], function (settings, alerts, bootbox, bootstrap) {
 	var Admin = {};
 	var mappingModal;
 
 	Admin.init = function () {
 		// Initialize Bootstrap modal
-		mappingModal = new bootstrap.Modal(document.getElementById('mapping-modal'));
+		var modalElement = document.getElementById('mapping-modal');
+		if (modalElement && bootstrap && bootstrap.Modal) {
+			mappingModal = new bootstrap.Modal(modalElement);
+		}
 
 		// Save settings
 		$('#slack-bidirectional-settings').on('submit', function (e) {
@@ -75,7 +78,11 @@ define('admin/plugins/slack-bidirectional', ['settings', 'alerts', 'bootbox'], f
 			$('#mapping-channel-id').val('');
 			$('#mapping-channel-name').val('');
 			$('#mapping-category-id').val('');
-			mappingModal.show();
+			if (mappingModal) {
+				mappingModal.show();
+			} else {
+				$('#mapping-modal').modal('show');
+			}
 		});
 
 		// Save mapping
@@ -106,7 +113,11 @@ define('admin/plugins/slack-bidirectional', ['settings', 'alerts', 'bootbox'], f
 				},
 				success: function () {
 					alerts.success('Mapping saved successfully');
-					mappingModal.hide();
+					if (mappingModal) {
+						mappingModal.hide();
+					} else {
+						$('#mapping-modal').modal('hide');
+					}
 					loadMappings();
 				},
 				error: function (xhr) {
