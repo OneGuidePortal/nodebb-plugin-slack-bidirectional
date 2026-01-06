@@ -12,7 +12,6 @@ const categories = require.main.require('./src/categories');
 
 const controllers = require('./lib/controllers');
 const awsWebhook = require('./lib/aws-webhook');
-const slackClient = require('./lib/slack-client');
 
 const plugin = {};
 
@@ -29,9 +28,14 @@ plugin.init = async (params) => {
 	// Setup the admin page route
 	routeHelpers.setupAdminPageRoute(router, '/admin/plugins/slack-bidirectional', controllers.renderAdminPage);
 
-	// API routes for admin
+	// API routes for admin - settings
 	router.post('/api/admin/plugins/slack-bidirectional/settings', middleware.applyCSRF, controllers.saveSettings);
 	router.post('/api/admin/plugins/slack-bidirectional/test', middleware.applyCSRF, controllers.testConnection);
+
+	// API routes for admin - channel mappings
+	router.get('/api/admin/plugins/slack-bidirectional/mappings', controllers.getMappings);
+	router.post('/api/admin/plugins/slack-bidirectional/mappings', middleware.applyCSRF, controllers.saveMapping);
+	router.delete('/api/admin/plugins/slack-bidirectional/mappings/:channelId', middleware.applyCSRF, controllers.deleteMapping);
 
 	winston.info('[slack-bidirectional] Plugin initialized');
 };
@@ -305,8 +309,6 @@ async function getSettings() {
 		enabled: settings?.enabled === 'true' || settings?.enabled === true || false,
 		awsWebhookUrl: settings?.awsWebhookUrl || '',
 		awsApiKey: settings?.awsApiKey || '',
-		slackBotToken: settings?.slackBotToken || '',
-		defaultChannel: settings?.defaultChannel || '',
 	};
 }
 
