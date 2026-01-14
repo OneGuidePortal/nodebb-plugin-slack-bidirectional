@@ -1,12 +1,16 @@
 {
   "name": "nodebb-plugin-slack-bidirectional",
   "version": "1.0.0",
-  "description": "Bidirectional Slack-NodeBB integration via AWS EventBridge with DynamoDB mapping",
+  "description": "Bidirectional Slack-NodeBB integration via AWS Lambda with multi-tenant support",
   "main": "library.js",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/OneGuidePortal/nodebb-plugin-slack-bidirectional.git"
   },
+  "bugs": {
+    "url": "https://github.com/OneGuidePortal/nodebb-plugin-slack-bidirectional/issues"
+  },
+  "homepage": "https://github.com/OneGuidePortal/nodebb-plugin-slack-bidirectional#readme",
   "keywords": [
     "nodebb",
     "plugin",
@@ -14,7 +18,10 @@
     "bidirectional",
     "sync",
     "aws",
-    "eventbridge"
+    "lambda",
+    "multi-tenant",
+    "forum",
+    "integration"
   ],
   "author": "Pete Seymour <pete@askoneguide.com>",
   "license": "MIT",

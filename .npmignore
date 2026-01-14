@@ -1,0 +1,32 @@
+# Git
+.git/
+.gitignore
+
+# Development files
+.claude/
+*.log
+
+# Test files
+test/
+tests/
+*.test.js
+*.spec.js
+
+# Documentation (README is included)
+docs/
+*.md
+!README.md
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# npm
+node_modules/
+package-lock.json
